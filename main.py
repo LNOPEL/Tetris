@@ -117,6 +117,8 @@ while True:
 				block_count += 1
 				if(collision.is_explosion()):
 					explosion(all_sprites)
+
+
 			print(block_count, checker_sprite.rect.y)
 			if block_count >= 10:
 				for collision in collision_check:
