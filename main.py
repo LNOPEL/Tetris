@@ -148,7 +148,7 @@ while True:
 			score += tetris
 	# if score >= 700:
 	#	level = 2
-	#	print("Level Up!!!")
+	#	print("Level Up!!!") changes
 	# if score >= 1400:
 
 	level = 1.5**(score // 700)
