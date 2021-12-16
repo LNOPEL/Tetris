@@ -66,7 +66,7 @@ def gen_block(all_sprites, level = 1):
 
 
 
-	block_list = [straight_block, special_block_explosion_block]
+	block_list = [straight_block, l_block, reverse_z_block, reverse_l_block, square_block,t_block,z_block]
 	random_number = random.randint(0, len(block_list)-1)
 	generation = block_list[random_number]
 
