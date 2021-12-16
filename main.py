@@ -5,7 +5,7 @@ import sys
 pygame.init()
 
 screen_width = 300
-screen_height = 600
+screen_height = 600 #
 score = 0
 level = 1
 
@@ -141,7 +141,7 @@ while True:
 						around_checker_sprite.rect.y -= 30
 					around_checker_sprite.rect.y += 590
 					around_checker_sprite.rect.x += 290
-					
+
 					# once block has fallen to bottom, erase the surroundings of the explosion block and
 					# the block itself.
 					# How: check up, right, down, left of the explosion using coordinates
