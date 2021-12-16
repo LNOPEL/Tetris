@@ -1,6 +1,5 @@
 import pygame
 import random
-import time
 pygame.init()
 from blocks import Blocks
 from straight_block import Straight_Block
@@ -28,10 +27,8 @@ class Special_Block_Explosion_Block(L_Block):
     def __init__(self, color, x, y, speed = 625):
         super().__init__(x, y, speed, (0,0,0))
 
-        # help on this
 
        # self.blocks = [Straight_Block, L_Block, Reverse_L_Block, Z_Block, Square_Block, T_Block, Reverse_Z_Block]
 
         random_explosion_block = random.choice(self.blocks)
 
-        # Here too
