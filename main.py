@@ -11,7 +11,7 @@ level = 1
 
 cyan = (24, 217, 204)
 orange = (245, 169, 37)
-red = (255, 0, 0) #push
+red = (255, 0, 0)
 blue = (66, 135, 245)
 purple = (149, 24, 217)
 green = (40, 184, 50)
@@ -30,7 +30,7 @@ from z_block import Z_Block
 from reverse_z_block import Reverse_Z_Block
 from checker_sprite import Checker_Sprite
 from words import draw_text
-from special_block_explosion_block import Special_Block_Explosion_Block
+
 
 def at_bottom(piece):
 	for block in piece.get_blocks():
@@ -62,11 +62,11 @@ def gen_block(all_sprites, level = 1):
 	t_block = T_Block(100, 20, 200 // level)
 	z_block = Z_Block(100, 20, 200 // level)
 	reverse_z_block = Reverse_Z_Block(100, 20, 200 // level)
-	special_block_explosion_block = Special_Block_Explosion_Block(100, 20, 200 // level)
 
 
 
-	block_list = [straight_block, special_block_explosion_block]
+
+	block_list = [straight_block, l_block, reverse_z_block, reverse_l_block, square_block, t_block, z_block]
 	random_number = random.randint(0, len(block_list)-1)
 	generation = block_list[random_number]
 
@@ -165,5 +165,11 @@ while True:
 	all_sprites.draw(screen)
 	if game_over:
 		draw_text(screen, str("Game Over!!!!!"), 45, screen_width / 2, 300)
+		draw_text(screen, "Score: " + str(score), 25, screen_width / 2, 20)
+		pygame.display.flip()
+		break
 	draw_text(screen, "Score: " + str(score), 25, screen_width / 2, 20)
 	pygame.display.flip()
+
+while True:
+	pass
