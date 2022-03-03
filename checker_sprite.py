@@ -6,7 +6,7 @@ screen_width = 300
 screen_height = 600
 
 class Checker_Sprite(pygame.sprite.Sprite):
-    def __init__(self, x, y, w = 400, h = 10):
+    def __init__(self, x, y, w = 600, h = 10):
         pygame.sprite.Sprite.__init__(self)
         self.x = x
         self.y = y

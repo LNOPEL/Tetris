@@ -13,7 +13,7 @@ class Around_Checker_Sprite(pygame.sprite.Sprite):
         self.w = w
         self.h = h
 
-        self.image = pygame.Surface((400, 10))
+        self.image = pygame.Surface((10, 10))
         self.rect = self.image.get_rect(center = (x + 200, y))
 
         # self.image.fill((0, 0, 0))

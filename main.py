@@ -38,12 +38,10 @@ from special_block_explosion_block import Special_Block_Explosion_Block
 def at_bottom(piece):
     for block in piece.get_blocks():
         if pygame.sprite.spritecollide(block, frozen_sprites, False):
-            print("in here")
-            # piece.set_prev()
+            # print("in here")
             return True
         if block.rect.bottom >= 600:
-            print(block.rect.bottom, block.rect.top)
-
+            # print(block.rect.bottom, block.rect.top)
             return True
 
     return False
@@ -85,7 +83,7 @@ def explosion(all_sprites):
 all_sprites = pygame.sprite.Group()
 frozen_sprites = pygame.sprite.Group()
 special_sprites = pygame.sprite.Group()
-special_sprites.add(Special_Block_Explosion_Block)
+# special_sprites.add(Special_Block_Explosion_Block)
 piece = gen_block(all_sprites)
 
 single = 100
@@ -106,16 +104,12 @@ while True:
         for block in piece.get_blocks():
             frozen_sprites.add(block)
 
-        checker_sprite = Checker_Sprite(0, 585)
-        around_checker_sprite = Around_Checker_Sprite(290, 590)
+        checker_sprite = Checker_Sprite(150, 590)
+        around_checker_sprite = Around_Checker_Sprite(0, 590)
         deleted_rows = 0
         # collision check is the list of blocks
         # on a given row of the game
         collision_check = pygame.sprite.spritecollide(checker_sprite, frozen_sprites, False)
-
-        # explosion check is meant for to check whether the around checker sprite is colliding with any explosion block
-        # broadest: check if an explosion block exists, trying to delete that explosion after falling to bottom,
-        # and remove the blocks around it
 
         lines = 0
         check_group = pygame.sprite.Group()
@@ -124,28 +118,53 @@ while True:
 
         while collision_check:
             block_count = 0
+            exploding_blocks = set()
+            # Find all the blocks next to explosion blocks, add them to the list, and then delete them
             for collision in collision_check:
                 # collision is the block that is frozen
                 block_count += 1
-                if (collision.is_explosion()):
-                    explosion(all_sprites)
-                    for i in range(10):
-                        for i in range(10):
-                            around_checker_sprite.rect.x -= 30
-                        around_checker_sprite.rect.y -= 30
-                        for i in range(10):
-                            around_checker_sprite.rect.x += 30
-                        around_checker_sprite.rect.y -= 30
-                    around_checker_sprite.rect.y += 590
-                    around_checker_sprite.rect.x += 290
+                around_checker_sprite.x = collision.x
+                around_checker_sprite.y = collision.y
+                around_checker_sprite.x = collision.x + 30
+                explosion_check = pygame.sprite.spritecollide(around_checker_sprite, frozen_sprites, False)
+                for blocks in explosion_check:
+                    exploding_blocks.add(blocks)
 
-            # once block has fallen to bottom, erase the surroundings of the explosion block and
-            # the block itself.
-            # How: check up, right, down, left of the explosion using coordinates
-            # question: HOW to see if there is a block up, right, down, left of the explosion?
-            # Answer: using spritecollide. Also, add something to check left and right
-            # -> make sprite to go around the explosion block using (+30, 0) , (-30,0), (0,+30), (0,-30) as change in coord
-            # check what it collides with (spritecollide)
+                around_checker_sprite.y = collision.y - 30
+                explosion_check = pygame.sprite.spritecollide(around_checker_sprite, frozen_sprites, False)
+                for blocks in explosion_check:
+                    exploding_blocks.add(blocks)
+
+                around_checker_sprite.x = collision.x - 30
+                explosion_check = pygame.sprite.spritecollide(around_checker_sprite, frozen_sprites, False)
+                for blocks in explosion_check:
+                    exploding_blocks.add(blocks)
+
+                around_checker_sprite.y = collision.y + 30
+                explosion_check = pygame.sprite.spritecollide(around_checker_sprite, frozen_sprites, False)
+
+                for blocks in exploding_blocks:
+                    all_sprites.remove(blocks)
+
+                explosion_check = pygame.sprite.spritecollide(around_checker_sprite, frozen_sprites, False)
+                print("There are", len(explosion_check), "exploding collisions")
+                print(around_checker_sprite.x, around_checker_sprite.y)
+
+                # check (210, 570) -- phantom block
+
+                # check if the around_checking_sprite is in the correct coordinate #
+                # HW: fix repeats of the list.
+                # explosion_blocks = set()
+                # explosion_blocks.add(blocks)
+
+
+                if len(explosion_check) != 0:
+                    for collision in explosion_check:
+                        frozen_sprites.remove(collision)
+
+
+                        all_sprites.remove(collision)
+                        print(collision)
 
             print(block_count, checker_sprite.rect.y)
             if block_count >= 10:
@@ -165,7 +184,9 @@ while True:
             lines += 1
             # if too many lines, end the game
             if lines >= 18:
-                game_over = True
+                print("Your final score is" , score)
+                pygame.quit()
+                sys.exit()
         piece = gen_block(all_sprites, level)
         if deleted_rows == 1:
             score += single
@@ -186,7 +207,4 @@ while True:
     screen.fill((255, 255, 255))
 
     all_sprites.draw(screen)
-    if game_over:
-        draw_text(screen, str("Game Over!!!!!"), 45, screen_width / 2, 300)
-    draw_text(screen, "Score: " + str(score), 25, screen_width / 2, 20)
     pygame.display.flip()
